@@ -17,7 +17,7 @@ const Login = ({navigation}) => {
           globalTheme.colors.white,
           globalTheme.colors.accent2,
         ]}
-        style={styles.linearGradient}>
+        style={globalStyles.linearGradient}>
         <View style={{margin: 16, marginTop: 40}}>
           <Text style={styles.heading}>Welcome, </Text>
 
@@ -77,10 +77,6 @@ const Login = ({navigation}) => {
 export default Login;
 
 const styles = StyleSheet.create({
-  linearGradient: {
-    display: 'flex',
-    flex: 1,
-  },
   heading: {
     fontSize: 36,
     fontFamily: globalTheme.font.semiBold,

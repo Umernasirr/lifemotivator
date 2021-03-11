@@ -1,24 +1,97 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {Switch, Divider, Button} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
+import LinearGradient from 'react-native-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Settings = ({navigation}) => {
+  const [firstSwitch, setFirstSwitch] = useState(false);
+  const [secondSwitch, setSecondSwitch] = useState(false);
+  const [thirdSwitch, setThirdSwitch] = useState(false);
+
+  const onToggleSwitch = (setCallback, value) => {
+    console.log(value);
+    setCallback(!value);
+    console.log(setCallback);
+  };
   return (
     <View style={globalStyles.background}>
-      <View style={globalStyles.container}>
-        <Text style={styles.heading}>Sign Up</Text>
+      <LinearGradient
+        colors={[
+          globalTheme.colors.white,
+          globalTheme.colors.white,
+          globalTheme.colors.accent2,
+        ]}
+        style={styles.linearGradient}>
+        <View style={{margin: 20}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              margin: 30,
+              justifyContent: 'center',
+            }}>
+            <Ionicons
+              style={{marginRight: 20}}
+              name="settings"
+              size={28}
+              color={globalTheme.colors.primary}
+            />
+            <Text style={styles.subheading}>Settings</Text>
+          </View>
 
-        <Text style={styles.subheading}>Live Everyday with a reason</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text>Enable Notifications</Text>
 
-        <Button
-          onPress={() => navigation.navigate('Login')}
-          style={styles.button}
-          mode="contained">
-          Logout of the Application
-        </Button>
-        <View style={globalStyles.content} />
-      </View>
+            <Switch
+              onValueChange={() => onToggleSwitch(setFirstSwitch, firstSwitch)}
+              value={firstSwitch}
+              color={globalTheme.colors.primary}
+              style={{position: 'absolute', right: 0}}
+            />
+          </View>
+
+          <Divider style={{margin: 20}} />
+
+          <View style={{flexDirection: 'row'}}>
+            <Text>Lorem Ipsum Dolar</Text>
+
+            <Switch
+              onValueChange={() =>
+                onToggleSwitch(setSecondSwitch, secondSwitch)
+              }
+              value={secondSwitch}
+              color={globalTheme.colors.primary}
+              style={{position: 'absolute', right: 0}}
+            />
+          </View>
+
+          <Divider style={{margin: 20}} />
+
+          <View style={{flexDirection: 'row'}}>
+            <Text>Lorem Ipsum Dolar</Text>
+
+            <Switch
+              onValueChange={() => onToggleSwitch(setThirdSwitch, thirdSwitch)}
+              value={thirdSwitch}
+              color={globalTheme.colors.primary}
+              style={{position: 'absolute', right: 0}}
+            />
+          </View>
+
+          <Divider style={{margin: 20}} />
+
+          <View style={{margin: 20}} />
+          <Button
+            mode="contained"
+            icon="login"
+            style={styles.button}
+            color={globalTheme.colors.primary}
+            onPress={() => navigation.navigate('Login')}>
+            Logout
+          </Button>
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -26,48 +99,15 @@ const Settings = ({navigation}) => {
 export default Settings;
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 32,
-    fontFamily: globalTheme.font.semiBold,
-    color: globalTheme.colors.dark,
+  linearGradient: {
+    display: 'flex',
+    flex: 1,
   },
 
-  heading2: {
-    fontSize: 24,
-    fontFamily: globalTheme.font.semiBold,
-    color: globalTheme.colors.dark,
-    margin: 20,
-  },
-
-  calenderStrip: {
-    backgroundColor: 'white',
-    padding: 10,
-    margin: 20,
-    borderRadius: 40,
-    alignSelf: 'center',
-  },
   subheading: {
-    fontSize: 18,
+    fontSize: 20,
     color: globalTheme.colors.primary,
-    fontFamily: globalTheme.font.light,
-    margin: 16,
-  },
-
-  subText: {
-    fontSize: 18,
-    color: globalTheme.colors.primary,
-    fontFamily: globalTheme.font.light,
-
-    marginTop: 20,
-    marginBottom: 10,
-  },
-
-  button: {padding: 10, paddingHorizontal: 20},
-
-  input: {
-    alignSelf: 'center',
-    width: '100%',
-    backgroundColor: 'white',
-    margin: 10,
+    fontFamily: globalTheme.font.bold,
+    textAlign: 'center',
   },
 });

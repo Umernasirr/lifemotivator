@@ -37,9 +37,15 @@ export const globalStyles = StyleSheet.create({
   container: {
     alignContent: 'center',
     marginTop: 40,
+    margin: 10,
   },
 
   content: {width: '90%', marginBottom: 20},
+
+  linearGradient: {
+    display: 'flex',
+    flex: 1,
+  },
 });
 
 export default Theme;

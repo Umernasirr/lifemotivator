@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
@@ -7,6 +7,7 @@ import Quote from '../../components/Quote';
 import CountDown from 'react-native-countdown-component';
 
 const Dashboard = ({navigation}) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
   return (
     <View style={{backgroundColor: 'white'}}>
       <View style={styles.sectionTop}>
@@ -14,8 +15,10 @@ const Dashboard = ({navigation}) => {
           <Text style={styles.heading}>Welcome Kevin!</Text>
 
           <CalendarStrip
-            selectedDate={new Date()}
-            onPressDate={(date) => {}}
+            selectedDate={selectedDate}
+            onPressDate={(date) => {
+              setSelectedDate(date);
+            }}
             onPressGoToday={(today) => {}}
             onSwipeDown={() => {}}
             markedDate={[]}
@@ -25,9 +28,11 @@ const Dashboard = ({navigation}) => {
       </View>
 
       <View style={styles.sectionBottom}>
-        <Quote />
+        <Quote text="Don't let yesterday take up too much of today." />
 
-        <Text style={styles.heading2}>You will Live till</Text>
+        <Text style={styles.heading2}>
+          Time is Precious, Don't let it slip away.
+        </Text>
 
         <CountDown
           until={60 * 10 + 30}
@@ -51,19 +56,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: globalTheme.font.medium,
     color: globalTheme.colors.dark,
+    margin: 10,
   },
 
   heading2: {
-    fontSize: 24,
+    fontSize: 18,
     fontFamily: globalTheme.font.medium,
     color: 'white',
+    textAlign: 'center',
     marginVertical: 20,
   },
 
   calenderStrip: {
     backgroundColor: 'white',
     padding: 0,
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderRadius: 20,
     alignItems: 'center',
 
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
-    marginTop: 40,
+    marginVertical: 20,
   },
 
   sectionBottom: {
