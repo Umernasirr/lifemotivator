@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import globalTheme, {globalStyles} from '../../styles/index';
 import {Button, TextInput} from 'react-native-paper';
 import LottieView from 'lottie-react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -10,55 +11,65 @@ const Login = ({navigation}) => {
 
   return (
     <View style={globalStyles.background}>
-      <View style={globalStyles.container}>
-        <Text style={styles.heading}>Login </Text>
+      <LinearGradient
+        colors={[
+          globalTheme.colors.white,
+          globalTheme.colors.white,
+          globalTheme.colors.accent2,
+        ]}
+        style={styles.linearGradient}>
+        <View style={{margin: 16, marginTop: 40}}>
+          <Text style={styles.heading}>Welcome, </Text>
 
-        <Text style={styles.subheading}>Live Everyday with a reason</Text>
-
-        <View style={globalStyles.content}>
-          <TextInput
-            label="Email"
-            value={email}
-            style={styles.input}
-            onChangeText={(text) => setEmail(text)}
-            mode="outlined"
-            placeholder="Enter your Email"
-          />
-
-          <TextInput
-            label="Password"
-            value={password}
-            style={styles.input}
-            mode="outlined"
-            onChangeText={(text) => setPassword(text)}
-            placeholder="Enter your Password"
-          />
+          <Text style={styles.subheading}>Sign In To Continue!</Text>
         </View>
 
-        <Button
-          mode="contained"
-          icon="login"
-          style={styles.button}
-          color={globalTheme.colors.primary}
-          onPress={() => navigation.navigate('BottomStack')}>
-          Login
-        </Button>
+        <View style={{alignItems: 'center'}}>
+          <View style={globalStyles.content}>
+            <TextInput
+              label="Email"
+              value={email}
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+              mode="outlined"
+              placeholder="Enter your Email"
+            />
 
-        <Text style={styles.subText}>Or</Text>
+            <TextInput
+              label="Password"
+              value={password}
+              style={styles.input}
+              mode="outlined"
+              onChangeText={(text) => setPassword(text)}
+              placeholder="Enter your Password"
+            />
+          </View>
 
-        <LottieView
-          style={styles.lottieSplash}
-          source={require('./lottie/login.json')}
-          autoPlay
-          loop
-        />
-        <Button
-          style={styles.button}
-          color={globalTheme.colors.primary}
-          onPress={() => navigation.navigate('SignUp')}>
-          Create an Account
-        </Button>
-      </View>
+          <Button
+            mode="contained"
+            icon="login"
+            style={styles.button}
+            color={globalTheme.colors.primary}
+            onPress={() => navigation.navigate('Life Motivator')}>
+            Login
+          </Button>
+
+          <Text style={styles.subText}>Or</Text>
+
+          <LottieView
+            style={styles.lottieSplash}
+            source={require('./lottie/login.json')}
+            autoPlay
+            loop
+          />
+          <Button
+            style={styles.button}
+            color={globalTheme.colors.primary}
+            onPress={() => navigation.navigate('SignUp')}>
+            Create an Account
+          </Button>
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -66,23 +77,27 @@ const Login = ({navigation}) => {
 export default Login;
 
 const styles = StyleSheet.create({
+  linearGradient: {
+    display: 'flex',
+    flex: 1,
+  },
   heading: {
-    fontSize: 32,
+    fontSize: 36,
     fontFamily: globalTheme.font.semiBold,
-    color: globalTheme.colors.dark,
+    color: globalTheme.colors.primary,
   },
 
   subheading: {
     fontSize: 18,
-    color: globalTheme.colors.primary,
-    fontFamily: globalTheme.font.light,
-    margin: 16,
+    color: globalTheme.colors.gray,
+    fontFamily: globalTheme.font.medium,
+    marginTop: 10,
   },
 
   subText: {
     fontSize: 18,
     color: globalTheme.colors.primary,
-    fontFamily: globalTheme.font.light,
+    fontFamily: globalTheme.font.regular,
 
     marginTop: 20,
     marginBottom: 10,
@@ -95,7 +110,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
 
-  button: {padding: 10, paddingHorizontal: 20},
+  button: {padding: 10, paddingHorizontal: 80},
 
   input: {
     alignSelf: 'center',

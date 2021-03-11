@@ -8,10 +8,11 @@ import SignUp from './screens/SignUp/SignUp';
 import Dashboard from './screens/Dashboard/Dashboard';
 import Settings from './screens/Settings/Settings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {Text, View} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import globalTheme, {globalStyles} from './styles';
+import Header from './components/Header';
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -56,15 +57,24 @@ const App = () => {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <MainStack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
+        <MainStack.Navigator initialRouteName="Login">
           <MainStack.Screen name="Splash" component={Splash} />
-          <MainStack.Screen name="Login" component={Login} />
+          <MainStack.Screen
+            options={{
+              header: (props) => <Header {...props} title="Login" />,
+            }}
+            name="Login"
+            component={Login}
+          />
           <MainStack.Screen name="SignUp" component={SignUp} />
 
-          <MainStack.Screen name="BottomStack" component={BottomStackScreen} />
+          <MainStack.Screen
+            options={{
+              header: (props) => <Header {...props} title="Life Motivator" />,
+            }}
+            name="Life Motivator"
+            component={BottomStackScreen}
+          />
         </MainStack.Navigator>
       </NavigationContainer>
     </PaperProvider>

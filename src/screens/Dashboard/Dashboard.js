@@ -3,16 +3,16 @@ import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
 import CalendarStrip from 'react-native-slideable-calendar-strip';
-
+import Quote from '../../components/Quote';
 import CountDown from 'react-native-countdown-component';
 
 const Dashboard = ({navigation}) => {
   return (
-    <View style={globalStyles.background}>
-      <View style={globalStyles.container}>
-        <Text style={styles.heading}>Welcome Kevin!</Text>
-
+    <View style={{backgroundColor: 'white'}}>
+      <View style={styles.sectionTop}>
         <View style={styles.calenderStrip}>
+          <Text style={styles.heading}>Welcome Kevin!</Text>
+
           <CalendarStrip
             selectedDate={new Date()}
             onPressDate={(date) => {}}
@@ -22,6 +22,10 @@ const Dashboard = ({navigation}) => {
             weekStartsOn={0}
           />
         </View>
+      </View>
+
+      <View style={styles.sectionBottom}>
+        <Quote />
 
         <Text style={styles.heading2}>You will Live till</Text>
 
@@ -31,6 +35,7 @@ const Dashboard = ({navigation}) => {
           onFinish={() => alert('Finished')}
           digitStyle={{backgroundColor: '#FFF'}}
           digitTxtStyle={{color: globalTheme.colors.primary}}
+          timeLabelStyle={{color: 'white'}}
           timeToShow={['D', 'H', 'M', 'S']}
           timeLabels={{d: 'DD', h: 'HH', m: 'MM', s: 'SS'}}
         />
@@ -43,7 +48,7 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   heading: {
-    fontSize: 32,
+    fontSize: 24,
     fontFamily: globalTheme.font.medium,
     color: globalTheme.colors.dark,
   },
@@ -51,39 +56,32 @@ const styles = StyleSheet.create({
   heading2: {
     fontSize: 24,
     fontFamily: globalTheme.font.medium,
-    color: globalTheme.colors.dark,
-    margin: 20,
+    color: 'white',
+    marginVertical: 20,
   },
 
   calenderStrip: {
     backgroundColor: 'white',
-    padding: 10,
-    margin: 20,
-    borderRadius: 40,
-    alignSelf: 'center',
-  },
-  subheading: {
-    fontSize: 18,
-    color: globalTheme.colors.primary,
-    fontFamily: globalTheme.font.light,
-    margin: 16,
+    padding: 0,
+    paddingVertical: 20,
+    borderRadius: 20,
+    alignItems: 'center',
+
+    borderColor: globalTheme.colors.primary,
+    borderWidth: 2,
   },
 
-  subText: {
-    fontSize: 18,
-    color: globalTheme.colors.primary,
-    fontFamily: globalTheme.font.light,
-
-    marginTop: 20,
-    marginBottom: 10,
-  },
-
-  button: {padding: 10, paddingHorizontal: 20},
-
-  input: {
-    alignSelf: 'center',
-    width: '100%',
+  sectionTop: {
     backgroundColor: 'white',
-    margin: 10,
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 40,
+  },
+
+  sectionBottom: {
+    backgroundColor: globalTheme.colors.primary,
+    padding: 20,
+    borderRadius: 10,
+    paddingBottom: 100,
   },
 });

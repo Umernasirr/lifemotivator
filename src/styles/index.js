@@ -3,8 +3,9 @@ const Theme = {
   colors: {
     primary: '#7874C9',
     accent: '#F2E7F8',
+    accent2: 'rgba(120, 116, 201,0.2)',
     dark: '#000000',
-
+    white: 'rgba(255,255,255,0.6)',
     lightDark: '#C1B8C3',
     yellow: '#EFCE4A',
     gray: '#797979',
@@ -34,8 +35,8 @@ export const globalStyles = StyleSheet.create({
   },
 
   container: {
-    alignItems: 'center',
-    marginTop: 100,
+    alignContent: 'center',
+    marginTop: 40,
   },
 
   content: {width: '90%', marginBottom: 20},
