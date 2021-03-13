@@ -12,7 +12,6 @@ import {Text, View} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import globalTheme, {globalStyles} from './styles';
-import Profile from './screens/Profile/Profile';
 import Header from './components/Header';
 const theme = {
   ...DefaultTheme,
@@ -31,7 +30,7 @@ const BottomStack = createBottomTabNavigator();
 
 const BottomStackScreen = () => (
   <BottomStack.Navigator
-    initialRouteName="Profile"
+    initialRouteName="Dashboard"
     screenOptions={({route}) => ({
       tabBarIcon: ({focused, color, size}) => {
         let iconName;
@@ -40,8 +39,6 @@ const BottomStackScreen = () => (
           iconName = focused ? 'ios-home' : 'ios-home-outline';
         } else if (route.name === 'Settings') {
           iconName = focused ? 'settings' : 'settings-outline';
-        } else if (route.name === 'Profile') {
-          iconName = focused ? 'ios-person-circle' : 'ios-person-circle';
         }
 
         // You can return any component that you like here!
@@ -52,8 +49,6 @@ const BottomStackScreen = () => (
       activeTintColor: 'tomato',
       inactiveTintColor: 'gray',
     }}>
-    <BottomStack.Screen name="Profile" component={Profile} />
-
     <BottomStack.Screen name="Dashboard" component={Dashboard} />
     <BottomStack.Screen name="Settings" component={Settings} />
   </BottomStack.Navigator>
@@ -71,7 +66,9 @@ const App = () => {
           />
           <MainStack.Screen
             options={{
-              header: (props) => <Header {...props} title="Login" />,
+              header: (props) => (
+                <Header {...props} title="Login" show={false} />
+              ),
             }}
             name="Login"
             component={Login}
