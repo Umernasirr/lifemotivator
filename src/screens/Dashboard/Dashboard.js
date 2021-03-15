@@ -40,25 +40,28 @@ const Dashboard = ({navigation}) => {
 
   const computingSecondsUtilDeath = (dob, gender, country) => {
     const age = computingAge(dob);
+
     const differenceInYears = computingDifferenceInYears(age, gender);
+    console.log(differenceInYears, 'doiff');
     setSeconds(differenceInYears * 31536000);
+    console.log(differenceInYears * 31536000);
   };
   const computingAge = (dob) => {
     const years = moment().diff(dob, 'years', true);
     return years;
   };
   const computingDifferenceInYears = (age, gender) => {
-    const lifeExpectancy = data.map((country) => {
-      if (country.id === testCountry) {
+    let lifeExpectancy;
+
+    data.map((cntry) => {
+      if (cntry.id === 44) {
         if (gender.toLowerCase() == 'male') {
-          return country.male;
-        }
-        elseP;
-        return country.female;
+          lifeExpectancy = cntry.male;
+        } else lifeExpectancy = cntry.female;
       }
-      return lifeExpectancy - age;
     });
-    return lifeExpectancy.filter((e) => e)[0];
+
+    return lifeExpectancy - age;
   };
 
   return (
