@@ -1,16 +1,66 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import globalTheme, {globalStyles} from '../../styles/index';
 import CalendarStrip from 'react-native-slideable-calendar-strip';
 import Quote from '../../components/Quote';
 import CountDown from 'react-native-countdown-component';
 import MyModal from './Modal';
+import data from '../../data/country-mock-data.json';
 
 const Dashboard = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showModal, setShowModal] = useState(true);
   const [firstTime, setFirstTime] = useState(true);
+  const [dob, setDob] = useState('');
+  const [gender, setGender] = useState('');
+  const [country, setCountry] = useState('');
+  const [seconds, setSeconds] = useState(0);
+  const testSex = 'male';
+  const testCountry = 44;
+  const testDob = '11/09/1997';
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async (key, callback) => {
+    try {
+      computingSecondsUtilDeath(
+        await AsyncStorage.getItem('dob'),
+        await AsyncStorage.getItem('gender'),
+        await AsyncStorage.getItem('country'),
+      );
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  const computingSecondsUtilDeath = (dob, gender, country) => {
+    const age = computingAge(dob);
+    const differenceInYears = computingDifferenceInYears(age, gender);
+    setSeconds(differenceInYears * 31536000);
+  };
+  const computingAge = (dob) => {
+    const years = moment().diff(dob, 'years', true);
+    return years;
+  };
+  const computingDifferenceInYears = (age, gender) => {
+    const lifeExpectancy = data.map((country) => {
+      if (country.id === testCountry) {
+        if (gender.toLowerCase() == 'male') {
+          return country.male;
+        }
+        elseP;
+        return country.female;
+      }
+      return lifeExpectancy - age;
+    });
+    return lifeExpectancy.filter((e) => e)[0];
+  };
+
   return (
     <View style={{backgroundColor: 'white'}}>
       {firstTime ? (
@@ -27,6 +77,7 @@ const Dashboard = ({navigation}) => {
               <Text style={styles.heading}>Welcome Kevin!</Text>
 
               {/* <CalendarStrip
+
                 selectedDate={selectedDate}
                 onPressDate={(date) => {
                   setSelectedDate(date);
@@ -48,14 +99,14 @@ const Dashboard = ({navigation}) => {
             </Text>
 
             <CountDown
-              until={60 * 10 + 30}
+              until={seconds}
               size={30}
               onFinish={() => alert('Finished')}
               digitStyle={{backgroundColor: '#FFF'}}
               digitTxtStyle={{color: globalTheme.colors.primary}}
               timeLabelStyle={{color: 'white'}}
-              timeToShow={['Y', 'M', 'D', 'H']}
-              timeLabels={{d: 'YY', h: 'MM', m: 'DD', s: 'HH'}}
+              timeToShow={['D', 'H', 'M', 'S']}
+              timeLabels={{d: 'Days', h: 'Hours', m: 'Minutes', s: 'Seconds'}}
             />
           </View>
         </View>

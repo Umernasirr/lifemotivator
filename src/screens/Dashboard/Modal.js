@@ -1,5 +1,17 @@
-import React, {useState, useRef} from 'react';
-import {StyleSheet, View, Modal} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+  StyleSheet,
+  View,
+  Modal,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Autocomplete from 'react-native-autocomplete-input';
+import DatePicker from 'react-native-date-picker';
+
+// import {Ionicons} from '@expo/vector-icons';rrrr
 import globalTheme, {globalStyles} from '../../styles';
 
 import * as Animatable from 'react-native-animatable';
@@ -8,6 +20,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import Icon from 'react-native-vector-icons/Feather';
 import Swiper from 'react-native-swiper';
+
+import data from '../../data/country-mock-data.json';
 
 const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
   const [showInput, setShowInput] = useState(false);
@@ -22,8 +36,40 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
   const [showInput1, setShowInput1] = useState(true);
   const [showInput2, setShowInput2] = useState(false);
   const [showInput3, setShowInput3] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [query, setQuery] = useState('');
 
-  const onPressNext = () => {
+  useEffect(() => {
+    const reshapeArray = data.map((country) => {
+      return {
+        value: country.id,
+        label: country.name,
+      };
+    });
+
+    setCountries(reshapeArray);
+  }, []);
+
+  const renderCountries = (country) => {
+    const {name} = country;
+
+    return (
+      <View>
+        <Text style={styles.titleText}>{name}</Text>
+      </View>
+    );
+  };
+  const findCountry = (query) => {
+    if (query === '') {
+      return [];
+    }
+
+    const regex = new RegExp(`${query.trim()}`, 'i');
+    return data.filter((country) => country.name.search(regex) >= 0);
+  };
+
+  const onPressNext = async () => {
     switch (count) {
       case 1:
         setModalText('What is your Country');
@@ -45,9 +91,8 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
         );
 
         setShowInput3(false);
-        console.log(age, country, gender);
 
-        // Calculate Life Estimate and Show
+        // Calculate Life Estima'gen=te and Show
 
         // setModalText('Thank you! Now our system will estimate your life span. ');
 
@@ -59,6 +104,30 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
         break;
     }
     setCount(count + 1);
+
+    if (date) {
+      storeData('dob', date.toString());
+    }
+    if (gender) {
+      storeData('gender', gender);
+    }
+    if (country) {
+      storeData('country', country);
+    }
+  };
+  const setDateToAsync = (e) => {
+    // console.log(e);
+    setDate(e);
+  };
+
+  const storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      console.log(e);
+      console.log(key, 'keyerror');
+      // saving error
+    }
   };
 
   return (
@@ -98,7 +167,7 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                     setTimeout(() => {
                       modalText.current.fadeOut(1000);
 
-                      setModalText('What is your Age?');
+                      setModalText('When were you born?');
 
                       modalText.current.fadeIn(1000);
 
@@ -115,63 +184,28 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
             {showInput && (
               <Animatable.View animation="fadeIn">
                 {showInput1 && (
-                  <TextInput
-                    label="Age"
-                    keyboardType="number-pad"
-                    mode="outlined"
-                    onChangeText={(text) => setAge(text)}
-                    style={styles.inputs}
+                  <DatePicker
+                    date={date}
+                    mode="date"
+                    onDateChange={(e) => setDateToAsync(e)}
                   />
                 )}
                 {showInput2 && (
-                  <DropDownPicker
-                    items={[
-                      {
-                        label: 'USA',
-                        value: 'usa',
-                        icon: () => (
-                          <Icon
-                            name="flag"
-                            size={18}
-                            color={globalTheme.colors.primary}
-                          />
-                        ),
-                        hidden: true,
-                      },
-                      {
-                        label: 'UK',
-                        value: 'uk',
-                        icon: () => (
-                          <Icon
-                            name="flag"
-                            size={18}
-                            color={globalTheme.colors.primary}
-                          />
-                        ),
-                      },
-                      {
-                        label: 'France',
-                        value: 'france',
-                        icon: () => (
-                          <Icon
-                            name="flag"
-                            size={18}
-                            color={globalTheme.colors.primary}
-                          />
-                        ),
-                      },
-                    ]}
-                    defaultValue={country}
-                    containerStyle={{height: 40}}
-                    style={{backgroundColor: '#fafafa'}}
-                    itemStyle={{
-                      justifyContent: 'flex-start',
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={(item) => setCountry(item.value)}
-                    onOpen={() => setShowButton(false)}
-                    onClose={() => setShowButton(true)}
-                  />
+                  <View style={{minHeight: 300}}>
+                    <DropDownPicker
+                      items={countries}
+                      // defaultValue={countries[0].label}
+                      containerStyle={{height: 40}}
+                      style={{backgroundColor: '#fafafa'}}
+                      itemStyle={{
+                        justifyContent: 'flex-start',
+                      }}
+                      dropDownStyle={{backgroundColor: '#fafafa'}}
+                      // onChangeItem={(item) => setCountry(item.value)}
+                      // onOpen={() => setShowButton(false)}
+                      // onClose={() => setShowButton(true)}
+                    />
+                  </View>
                 )}
                 {showInput3 && (
                   <View>
@@ -285,5 +319,48 @@ const styles = StyleSheet.create({
     margin: 6,
     fontFamily: globalTheme.font.regular,
     fontSize: 16,
+  },
+  container: {
+    backgroundColor: '#F5FCFF',
+    flex: 1,
+    paddingTop: 25,
+  },
+  autocompleteContainer: {
+    flex: 1,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1,
+  },
+  itemText: {
+    fontSize: 15,
+    margin: 2,
+  },
+  descriptionContainer: {
+    // `backgroundColor` needs to be set otherwise the
+    // autocomplete input will disappear on text input.
+    backgroundColor: '#F5FCFF',
+    marginTop: 25,
+  },
+  infoText: {
+    textAlign: 'center',
+  },
+  titleText: {
+    fontSize: 18,
+
+    fontWeight: '500',
+    marginBottom: 10,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  directorText: {
+    color: 'grey',
+    fontSize: 12,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  openingText: {
+    textAlign: 'center',
   },
 });
