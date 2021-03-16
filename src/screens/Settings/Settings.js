@@ -4,6 +4,7 @@ import {Switch, Divider, Button} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = ({navigation}) => {
   const [firstSwitch, setFirstSwitch] = useState(false);
@@ -14,6 +15,11 @@ const Settings = ({navigation}) => {
     console.log(value);
     setCallback(!value);
     console.log(setCallback);
+  };
+
+  const onClearData = async () => {
+    await AsyncStorage.removeItem('seen');
+    navigation.navigate('Login');
   };
   return (
     <View style={globalStyles.background}>
@@ -53,7 +59,7 @@ const Settings = ({navigation}) => {
 
           <Divider style={{margin: 20}} />
 
-          <View style={{flexDirection: 'row'}}>
+          {/* <View style={{flexDirection: 'row'}}>
             <Text>Lorem Ipsum Dolar</Text>
 
             <Switch
@@ -77,9 +83,19 @@ const Settings = ({navigation}) => {
               color={globalTheme.colors.primary}
               style={{position: 'absolute', right: 0}}
             />
-          </View>
+          </View> 
 
-          <Divider style={{margin: 20}} />
+          <Divider style={{margin: 20}} /> 
+          <View style={{margin: 20}} />*/}
+
+          <Button
+            mode="outlined"
+            icon="login"
+            style={styles.button}
+            color={globalTheme.colors.primary}
+            onPress={onClearData}>
+            Clear Data
+          </Button>
 
           <View style={{margin: 20}} />
           <Button

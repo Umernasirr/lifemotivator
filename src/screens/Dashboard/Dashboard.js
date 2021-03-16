@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {Button, Divider} from 'react-native-paper';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import globalTheme, {globalStyles} from '../../styles/index';
@@ -13,18 +13,45 @@ import data from '../../data/country-mock-data.json';
 const Dashboard = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showModal, setShowModal] = useState(true);
-  const [firstTime, setFirstTime] = useState(true);
-  const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('');
-  const [country, setCountry] = useState('');
+  const [firstTime, setFirstTime] = useState(false);
+
   const [seconds, setSeconds] = useState(0);
-  const testSex = 'male';
-  const testCountry = 44;
-  const testDob = '11/09/1997';
+  const [years, setYears] = useState(0);
 
   useEffect(() => {
+    const asyncFunc = async () => {
+      const isSeen = await AsyncStorage.getItem('seen');
+
+      if (isSeen === 'true') {
+        setShowModal(false);
+        setFirstTime(false);
+      } else {
+        setFirstTime(true);
+      }
+    };
+
+    asyncFunc().then(() => {});
     getData();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      const isSeen = await AsyncStorage.getItem('seen');
+
+      if (isSeen === 'true') {
+        setShowModal(false);
+        setFirstTime(false);
+
+        getData();
+      } else {
+        setShowModal(true);
+        setFirstTime(true);
+      }
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   const getData = async (key, callback) => {
     try {
@@ -42,9 +69,9 @@ const Dashboard = ({navigation}) => {
     const age = computingAge(dob);
 
     const differenceInYears = computingDifferenceInYears(age, gender);
-    console.log(differenceInYears, 'doiff');
+
+    setYears(Math.round(differenceInYears));
     setSeconds(differenceInYears * 31536000);
-    console.log(differenceInYears * 31536000);
   };
   const computingAge = (dob) => {
     const years = moment().diff(dob, 'years', true);
@@ -96,20 +123,49 @@ const Dashboard = ({navigation}) => {
           <View style={styles.sectionBottom}>
             <Quote text="Don't let yesterday take up too much of today." />
 
-            <View style={{margin: 10}} />
-            <Text style={styles.heading2}>
-              Time is Precious, Don't let it slip away.
+            <View style={{margin: 10}}>
+              <Text style={styles.heading2}>
+                Time is Precious, Don't let it slip away.
+              </Text>
+            </View>
+
+            {seconds > 0 && (
+              <CountDown
+                until={seconds}
+                size={34}
+                onFinish={() => alert('Finished')}
+                digitStyle={{backgroundColor: '#FFF'}}
+                digitTxtStyle={{
+                  color: globalTheme.colors.primary,
+                  fontSize: 28,
+                }}
+                timeLabelStyle={{color: 'white'}}
+                timeToShow={['D', 'H', 'M', 'S']}
+                timeLabels={{d: 'Days', h: 'Hours', m: 'Minutes', s: 'Seconds'}}
+              />
+            )}
+
+            <Text
+              style={{
+                marginTop: 20,
+                textAlign: 'center',
+                color: 'white',
+                fontFamily: globalTheme.font.medium,
+                fontSize: 16,
+              }}>
+              That's an Estimated
+              <Text style={{fontFamily: globalTheme.font.bold}}>
+                {' ' + years + ' '}
+              </Text>
+              Years!
             </Text>
 
-            <CountDown
-              until={seconds}
-              size={30}
-              onFinish={() => alert('Finished')}
-              digitStyle={{backgroundColor: '#FFF'}}
-              digitTxtStyle={{color: globalTheme.colors.primary}}
-              timeLabelStyle={{color: 'white'}}
-              timeToShow={['D', 'H', 'M', 'S']}
-              timeLabels={{d: 'Days', h: 'Hours', m: 'Minutes', s: 'Seconds'}}
+            <Divider
+              style={{
+                backgroundColor: 'white',
+                marginTop: 10,
+                marginHorizontal: 20,
+              }}
             />
           </View>
         </View>
@@ -125,7 +181,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: globalTheme.font.medium,
     color: globalTheme.colors.dark,
-    margin: 10,
   },
 
   heading2: {

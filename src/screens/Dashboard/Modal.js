@@ -28,7 +28,7 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
   const modalText = useRef();
   const [modalTxt, setModalText] = useState('Welcome to Life Motivator!');
   const [age, setAge] = useState('');
-  const [country, setCountry] = useState('uk');
+  const [country, setCountry] = useState(0);
   const [gender, setGender] = useState('');
   const [count, setCount] = useState(1);
   const [showButton, setShowButton] = useState(true);
@@ -51,24 +51,6 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
     setCountries(reshapeArray);
   }, []);
 
-  const renderCountries = (country) => {
-    const {name} = country;
-
-    return (
-      <View>
-        <Text style={styles.titleText}>{name}</Text>
-      </View>
-    );
-  };
-  const findCountry = (query) => {
-    if (query === '') {
-      return [];
-    }
-
-    const regex = new RegExp(`${query.trim()}`, 'i');
-    return data.filter((country) => country.name.search(regex) >= 0);
-  };
-
   const onPressNext = async () => {
     switch (count) {
       case 1:
@@ -89,6 +71,8 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
         setModalText(
           'Thank you! Now our system will estimate your life span. ',
         );
+
+        storeData('seen', 'true');
 
         setShowInput3(false);
 
@@ -112,7 +96,7 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
       storeData('gender', gender);
     }
     if (country) {
-      storeData('country', country);
+      storeData('country', country.toString());
     }
   };
   const setDateToAsync = (e) => {
@@ -132,14 +116,7 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
 
   return (
     <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Animatable.Text
@@ -191,20 +168,43 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                   />
                 )}
                 {showInput2 && (
-                  <View style={{minHeight: 300}}>
+                  <View style={{minHeight: 150}}>
                     <DropDownPicker
                       items={countries}
                       // defaultValue={countries[0].label}
-                      containerStyle={{height: 40}}
-                      style={{backgroundColor: '#fafafa'}}
+                      containerStyle={{height: 50}}
+                      style={{
+                        backgroundColor: '#fafafa',
+                        minWidth: 250,
+                        paddingHorizontal: 10,
+                      }}
                       itemStyle={{
                         justifyContent: 'flex-start',
                       }}
                       dropDownStyle={{backgroundColor: '#fafafa'}}
-                      // onChangeItem={(item) => setCountry(item.value)}
-                      // onOpen={() => setShowButton(false)}
+                      onChangeItem={(item) => setCountry(item.value)}
+
                       // onClose={() => setShowButton(true)}
                     />
+
+                    <Text
+                      style={{
+                        margin: 10,
+                        marginTop: 20,
+                        fontFamily: globalTheme.font.medium,
+                      }}>
+                      Your selected country is{' '}
+                      {countries.map((cntry) =>
+                        cntry.value === country ? (
+                          <Text
+                            style={{
+                              color: globalTheme.colors.primary,
+                            }}>
+                            {cntry.label}
+                          </Text>
+                        ) : null,
+                      )}
+                    </Text>
                   </View>
                 )}
                 {showInput3 && (
@@ -227,24 +227,18 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                       />
                       <Text style={styles.radioText}>Female </Text>
                     </View>
-
-                    <View style={styles.radioGroup}>
-                      <RadioButton
-                        color={globalTheme.colors.primary}
-                        value="Other"
-                        status={gender === 'Other' ? 'checked' : 'unchecked'}
-                        onPress={() => setGender('Other')}
-                      />
-                      <Text style={styles.radioText}>Other{'    '}</Text>
-                    </View>
                   </View>
                 )}
-
+                <View style={{margin: 10}} />
                 {showButton && (
                   <Button
                     mode="contained"
                     onPress={onPressNext}
-                    style={{marginTop: 20, paddingHorizontal: 10}}>
+                    style={{
+                      marginTop: 20,
+                      marginBottom: 20,
+                      marginHorizontal: 20,
+                    }}>
                     Next
                   </Button>
                 )}
@@ -264,7 +258,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
 
   modalView: {
@@ -274,7 +267,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: globalTheme.colors.primary,
     shadowOffset: {
-      width: 0,
+      width: 3,
       height: 2,
     },
     shadowOpacity: 0.25,
@@ -284,7 +277,7 @@ const styles = StyleSheet.create({
     minWidth: 300,
     width: 'auto',
     justifyContent: 'center',
-    margin: 20,
+    margin: 10,
   },
   button: {
     borderRadius: 20,
@@ -313,7 +306,12 @@ const styles = StyleSheet.create({
     width: 160,
   },
 
-  radioGroup: {flexDirection: 'row', justifyContent: 'center', margin: 5},
+  radioGroup: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: 80,
+    paddingVertical: 10,
+  },
 
   radioText: {
     margin: 6,
