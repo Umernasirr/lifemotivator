@@ -125,35 +125,35 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
               iterationCount={1}
               duration={1000}
               onAnimationEnd={function () {
-                modalText.current.fadeOut(1000);
+                modalText.current.fadeOut(3000);
 
                 setTimeout(() => {
                   setModalText(
                     'We are here to motivate you and help you push through goals',
                   );
 
-                  modalText.current.fadeIn(1000);
+                  modalText.current.fadeIn(3000);
 
                   setTimeout(() => {
-                    modalText.current.fadeOut(1000);
+                    modalText.current.fadeOut(3000);
 
                     setModalText('Now, we need to know more about you...');
 
-                    modalText.current.fadeIn(1000);
+                    modalText.current.fadeIn(3000);
 
                     setTimeout(() => {
-                      modalText.current.fadeOut(1000);
+                      modalText.current.fadeOut(3000);
 
                       setModalText('When were you born?');
 
-                      modalText.current.fadeIn(1000);
+                      modalText.current.fadeIn(3000);
 
                       //  This is where the text boxes should appear
 
                       setShowInput(true);
-                    }, 1500);
-                  }, 1500);
-                }, 1500);
+                    }, 3500);
+                  }, 3500);
+                }, 3500);
               }}
               ref={modalText}>
               {modalTxt}
