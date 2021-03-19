@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67861773123",
+    "project_id": "lifemotivator",
+    "storage_bucket": "lifemotivator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67861773123:android:e7c902fd6eeda4864d0df6",
+        "android_client_info": {
+          "package_name": "com.lifemotivator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67861773123-3ra2j3l5g6248vbfkp5mag69go0sgb4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh6PfrVvnhi_6f_MXC2GFLvIvM9-LaCsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67861773123-3ra2j3l5g6248vbfkp5mag69go0sgb4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

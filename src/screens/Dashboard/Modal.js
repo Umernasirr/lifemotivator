@@ -247,6 +247,10 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
           </View>
         </View>
       </Modal>
+
+      <View style={styles.circleView2} />
+      <View style={styles.circleView3} />
+      <View style={styles.circleView1} />
     </View>
   );
 };
@@ -261,17 +265,14 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
+    marginTop: 60,
     backgroundColor: 'white',
     borderRadius: 20,
 
     alignItems: 'center',
     shadowColor: globalTheme.colors.primary,
-    shadowOffset: {
-      width: 3,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    borderColor: globalTheme.colors.primary,
+    borderWidth: 2,
     elevation: 5,
     minHeight: 300,
     minWidth: 300,
@@ -360,5 +361,38 @@ const styles = StyleSheet.create({
   },
   openingText: {
     textAlign: 'center',
+  },
+
+  circleView1: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    top: -40,
+    left: -40,
+    backgroundColor: globalTheme.colors.primary,
+    borderRadius: 75,
+    opacity: 0.4,
+  },
+
+  circleView2: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    top: -40,
+    left: 40,
+    backgroundColor: globalTheme.colors.primary,
+    borderRadius: 75,
+    opacity: 0.5,
+  },
+
+  circleView3: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    top: 40,
+    left: -40,
+    backgroundColor: globalTheme.colors.primary,
+    borderRadius: 75,
+    opacity: 0.5,
   },
 });
