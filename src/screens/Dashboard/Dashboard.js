@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {Button, Divider} from 'react-native-paper';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -108,7 +108,7 @@ const Dashboard = ({navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: 'white'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       {firstTime ? (
         <MyModal
           modalVisible={showModal}
@@ -145,21 +145,19 @@ const Dashboard = ({navigation}) => {
               </Text>
             </View>
 
-            {seconds > 0 && (
-              <CountDown
-                until={seconds}
-                size={33}
-                onFinish={() => alert('Finished')}
-                digitStyle={{backgroundColor: '#FFF'}}
-                digitTxtStyle={{
-                  color: globalTheme.colors.primary,
-                  fontSize: 28,
-                }}
-                timeLabelStyle={{color: 'white'}}
-                timeToShow={['D', 'H', 'M', 'S']}
-                timeLabels={{d: 'Days', h: 'Hours', m: 'Minutes', s: 'Seconds'}}
-              />
-            )}
+            <CountDown
+              until={seconds}
+              size={35}
+              onFinish={() => alert('Finished')}
+              digitStyle={{backgroundColor: '#FFF'}}
+              digitTxtStyle={{
+                color: globalTheme.colors.primary,
+                fontSize: 26,
+              }}
+              timeLabelStyle={{color: 'white'}}
+              timeToShow={['D', 'H', 'M', 'S']}
+              timeLabels={{d: 'Days', h: 'Hours', m: 'Minutes', s: 'Seconds'}}
+            />
 
             <Text
               style={{
@@ -196,7 +194,7 @@ const Dashboard = ({navigation}) => {
           </View>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -220,6 +220,11 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                     </View>
                     <View style={styles.radioGroup}>
                       <RadioButton
+                        style={{
+                          borderColor: globalTheme.colors.primary,
+                          borderWidth: 2,
+                          background: 'lightgray',
+                        }}
                         color={globalTheme.colors.primary}
                         value="Female"
                         status={gender === 'Female' ? 'checked' : 'unchecked'}

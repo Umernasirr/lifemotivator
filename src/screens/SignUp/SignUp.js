@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
 import LinearGradient from 'react-native-linear-gradient';
@@ -9,7 +9,7 @@ const SignUp = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   return (
-    <View style={globalStyles.background}>
+    <SafeAreaView style={globalStyles.background}>
       <LinearGradient
         colors={[
           globalTheme.colors.white,
@@ -69,7 +69,7 @@ const SignUp = ({navigation}) => {
           </Button>
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 

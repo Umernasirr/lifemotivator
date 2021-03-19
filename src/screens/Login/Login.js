@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import globalTheme, {globalStyles} from '../../styles/index';
 import {Button, TextInput} from 'react-native-paper';
 import LottieView from 'lottie-react-native';
@@ -10,7 +10,7 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   return (
-    <View style={globalStyles.background}>
+    <SafeAreaView style={globalStyles.background}>
       <LinearGradient
         colors={[
           globalTheme.colors.white,
@@ -70,7 +70,7 @@ const Login = ({navigation}) => {
           </Button>
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 

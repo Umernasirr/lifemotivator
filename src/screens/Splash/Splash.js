@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {Button} from 'react-native-paper';
 import {useTheme} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
@@ -11,7 +11,7 @@ const Splash = ({navigation}) => {
   const {colors} = useTheme();
 
   return (
-    <View style={globalStyles.background}>
+    <SafeAreaView style={globalStyles.background}>
       <LinearGradient
         colors={[
           globalTheme.colors.white,
@@ -41,7 +41,7 @@ const Splash = ({navigation}) => {
           </Button>
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 
