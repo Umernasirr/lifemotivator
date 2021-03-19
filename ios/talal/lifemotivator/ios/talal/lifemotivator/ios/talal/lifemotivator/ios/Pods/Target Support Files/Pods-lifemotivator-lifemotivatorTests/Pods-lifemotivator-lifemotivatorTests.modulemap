@@ -1,0 +1,6 @@
+module Pods_lifemotivator_lifemotivatorTests {
+  umbrella header "Pods-lifemotivator-lifemotivatorTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
