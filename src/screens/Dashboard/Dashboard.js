@@ -9,6 +9,9 @@ import Quote from '../../components/Quote';
 import CountDown from 'react-native-countdown-component';
 import MyModal from './Modal';
 import data from '../../data/country-mock-data.json';
+import {Platform} from 'react-native';
+import {showNotificationAndroid} from '../../android-notification';
+import {showNotificationiOS} from '../../android-notification';
 
 const Dashboard = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -30,8 +33,18 @@ const Dashboard = ({navigation}) => {
       }
     };
 
-    asyncFunc().then(() => {});
     getData();
+
+    asyncFunc().then(() => {});
+
+    if (years > 0) {
+      Platform.OS === 'ios'
+        ? showNotificationiOS('Life Motivator', `You have ${years} years left!`)
+        : showNotificationAndroid(
+            'Life Motivator',
+            `You have ${years} years left!`,
+          );
+    }
   }, []);
 
   useEffect(() => {
@@ -48,6 +61,7 @@ const Dashboard = ({navigation}) => {
         setFirstTime(true);
       }
     });
+    getData();
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
@@ -84,7 +98,9 @@ const Dashboard = ({navigation}) => {
       if (cntry.id === 44) {
         if (gender.toLowerCase() == 'male') {
           lifeExpectancy = cntry.male;
-        } else lifeExpectancy = cntry.female;
+        } else {
+          lifeExpectancy = cntry.female;
+        }
       }
     });
 
@@ -123,7 +139,7 @@ const Dashboard = ({navigation}) => {
           <View style={styles.sectionBottom}>
             <Quote text="Don't let yesterday take up too much of today." />
 
-            <View style={{margin: 10}}>
+            <View style={{margin: 0}}>
               <Text style={styles.heading2}>
                 Time is Precious, Don't let it slip away.
               </Text>
@@ -132,7 +148,7 @@ const Dashboard = ({navigation}) => {
             {seconds > 0 && (
               <CountDown
                 until={seconds}
-                size={34}
+                size={33}
                 onFinish={() => alert('Finished')}
                 digitStyle={{backgroundColor: '#FFF'}}
                 digitTxtStyle={{
@@ -147,7 +163,7 @@ const Dashboard = ({navigation}) => {
 
             <Text
               style={{
-                marginTop: 20,
+                marginTop: 10,
                 textAlign: 'center',
                 color: 'white',
                 fontFamily: globalTheme.font.medium,
@@ -160,6 +176,16 @@ const Dashboard = ({navigation}) => {
               Years!
             </Text>
 
+            <Button
+              style={{
+                backgroundColor: 'white',
+                marginHorizontal: 40,
+                marginTop: 20,
+              }}
+              onPress={getData}>
+              {' '}
+              Update Countdown
+            </Button>
             <Divider
               style={{
                 backgroundColor: 'white',
@@ -214,7 +240,7 @@ const styles = StyleSheet.create({
 
   sectionBottom: {
     backgroundColor: globalTheme.colors.primary,
-    padding: 20,
+    padding: 15,
     borderRadius: 10,
     paddingBottom: 1000,
     margin: 10,
