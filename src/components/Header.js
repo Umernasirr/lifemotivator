@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import globalTheme, {globalStyles} from '../styles/';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableRipple} from 'react-native-paper';
@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 const Header = ({show = true, title}) => {
   const navigation = useNavigation();
   return (
+    <SafeAreaView>
     <View style={styles.header}>
       {show && (
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -18,6 +19,7 @@ const Header = ({show = true, title}) => {
         <Text style={styles.title}>{title}</Text>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 
