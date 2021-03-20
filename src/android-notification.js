@@ -1,7 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 
 const showNotificationAndroid = (title, message) => {
-  console.log('HELLo');
   console.log(title, message);
   PushNotification.localNotification({
     title,

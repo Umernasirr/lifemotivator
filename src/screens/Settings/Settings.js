@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import {Switch, Divider, Button} from 'react-native-paper';
 import globalTheme, {globalStyles} from '../../styles/index';
@@ -7,6 +7,31 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = ({navigation}) => {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener(
+      'focus',
+      async () => {
+        const isSeen = await AsyncStorage.getItem('seen');
+
+        if (!isSeen) {
+          navigation.navigate('Dashboard');
+        }
+
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+      },
+      [navigation],
+    );
+  });
+
+  const seen = async () => {
+    const isSeen = await AsyncStorage.getItem('seen');
+    if (!isSeen) {
+      console.log('Hel;l', isSeen);
+    }
+    navigation.navigate('Dashboard');
+  };
+
   const [firstSwitch, setFirstSwitch] = useState(false);
   const [secondSwitch, setSecondSwitch] = useState(false);
   const [thirdSwitch, setThirdSwitch] = useState(false);

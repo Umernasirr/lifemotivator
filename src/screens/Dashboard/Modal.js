@@ -25,11 +25,12 @@ import data from '../../data/country-mock-data.json';
 
 const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
   const [showInput, setShowInput] = useState(false);
+  const [error, setError] = useState(false);
   const modalText = useRef();
   const [modalTxt, setModalText] = useState('Welcome to Life Motivator!');
   const [age, setAge] = useState('');
-  const [country, setCountry] = useState(0);
-  const [gender, setGender] = useState('');
+  const [country, setCountry] = useState('');
+  const [gender, setGender] = useState('Male');
   const [count, setCount] = useState(1);
   const [showButton, setShowButton] = useState(true);
 
@@ -48,7 +49,12 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
       };
     });
 
+    reshapeArray.sort((a, b) =>
+      a.label > b.label ? 1 : b.label > a.label ? -1 : 0,
+    );
     setCountries(reshapeArray);
+
+    setCountry(reshapeArray[0].value);
   }, []);
 
   const onPressNext = async () => {
@@ -68,9 +74,7 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
         break;
 
       case 3:
-        setModalText(
-          'Thank you! Now our system will estimate your life span. ',
-        );
+        setModalText('Thank you! Now we will Estimate your life span.');
 
         storeData('seen', 'true');
 
@@ -87,6 +91,7 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
 
         break;
     }
+
     setCount(count + 1);
 
     if (date) {
@@ -171,7 +176,6 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                   <View style={{minHeight: 150}}>
                     <DropDownPicker
                       items={countries}
-                      // defaultValue={countries[0].label}
                       containerStyle={{height: 50}}
                       style={{
                         backgroundColor: '#fafafa',
@@ -211,6 +215,10 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                   <View>
                     <View style={styles.radioGroup}>
                       <RadioButton
+                        style={{
+                          borderColor: globalTheme.colors.primary,
+                          borderWidth: 2,
+                        }}
                         color={globalTheme.colors.primary}
                         value="Male"
                         status={gender === 'Male' ? 'checked' : 'unchecked'}
@@ -235,6 +243,14 @@ const MyModal = ({modalVisible, setModalVisible, setFirstTime, firstTime}) => {
                   </View>
                 )}
                 <View style={{margin: 10}} />
+
+                {error && (
+                  <View>
+                    <Text style={{color: 'red', textAlign: 'center'}}>
+                      This field is required*
+                    </Text>
+                  </View>
+                )}
                 {showButton && (
                   <Button
                     mode="contained"
@@ -317,6 +333,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 80,
     paddingVertical: 10,
+    borderColor: globalTheme.colors.primary,
+    borderWidth: 2,
+    backgroundColor: '#F5FCFF',
+    borderRadius: 40,
+    paddingHorizontal: 50,
+    marginVertical: 5,
   },
 
   radioText: {

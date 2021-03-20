@@ -20,7 +20,7 @@ const Splash = ({navigation}) => {
         ]}
         style={globalStyles.linearGradient}>
         <View style={globalStyles.container}>
-          <View style={{marginTop: 60}} />
+          <View style={{marginTop: 100}} />
           <Text style={styles.heading}>Life Motivator</Text>
           <Text style={styles.subheading}>Live Everyday with a reason</Text>
 
@@ -41,6 +41,10 @@ const Splash = ({navigation}) => {
           </Button>
         </View>
       </LinearGradient>
+
+      <View style={styles.circleView2} />
+      <View style={styles.circleView3} />
+      <View style={styles.circleView1} />
     </SafeAreaView>
   );
 };
@@ -68,4 +72,37 @@ const styles = StyleSheet.create({
   },
 
   button: {padding: 10, margin: 20, marginVertical: 10},
+
+  circleView1: {
+    position: 'absolute',
+    width: 130,
+    height: 130,
+    top: -40,
+    left: -40,
+    backgroundColor: globalTheme.colors.primary,
+    borderRadius: 75,
+    opacity: 0.4,
+  },
+
+  circleView2: {
+    position: 'absolute',
+    width: 130,
+    height: 130,
+    top: -40,
+    left: 40,
+    backgroundColor: globalTheme.colors.primary,
+    borderRadius: 75,
+    opacity: 0.5,
+  },
+
+  circleView3: {
+    position: 'absolute',
+    width: 130,
+    height: 130,
+    top: 40,
+    left: -40,
+    backgroundColor: globalTheme.colors.primary,
+    borderRadius: 75,
+    opacity: 0.5,
+  },
 });

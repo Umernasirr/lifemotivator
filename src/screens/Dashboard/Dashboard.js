@@ -45,7 +45,11 @@ const Dashboard = ({navigation}) => {
             `You have ${years} years left!`,
           );
     }
-  }, []);
+
+    setTimeout(() => {
+      getData();
+    }, 3000);
+  }, [showModal]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -182,7 +186,7 @@ const Dashboard = ({navigation}) => {
               }}
               onPress={getData}>
               {' '}
-              Update Countdown
+              {seconds > 0 ? 'Update Countdown' : 'Start Countdown'}
             </Button>
             <Divider
               style={{

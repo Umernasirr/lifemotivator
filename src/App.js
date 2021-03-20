@@ -8,7 +8,7 @@ import SignUp from './screens/SignUp/SignUp';
 import Dashboard from './screens/Dashboard/Dashboard';
 import Settings from './screens/Settings/Settings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import globalTheme, {globalStyles} from './styles';
@@ -58,7 +58,7 @@ const App = () => {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <MainStack.Navigator initialRouteName="Life Motivator">
+        <MainStack.Navigator initialRouteName="Splash">
           <MainStack.Screen
             name="Splash"
             options={{headerShown: false}}
